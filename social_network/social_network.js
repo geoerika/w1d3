@@ -31,44 +31,63 @@ const data = {
   }
 };
 
-const followFollowers = (data) => {
+// const followFollowers = (data) => {
 
-  let everyone = {};
-  for(key in data) {
-    let person = data[key];
-    everyone[person.name] = {};
-    everyone[person.name].follows = [];
-    everyone[person.name].followers = [];
-    everyone[person.name].follows = follows(key, data);
-    everyone[person.name].followers = followers(key, data);
-  }
+//   let everyone = {};
+//   for(key in data) {
+//     let person = data[key];
+//     everyone[person.name] = {};
+//     everyone[person.name].follows = [];
+//     everyone[person.name].followers = [];
+//     everyone[person.name].follows = follows(key, data);
+//     everyone[person.name].followers = followers(key, data);
+//   }
 
-  return everyone;
-}
+//   return everyone;
+// }
 
-const follows = (key, data) => {
-  let followsArray = [];
-  let followsKeyArray = data[key].follows;
-  followsArray = followsKeyArray.map((key1) => {
-    for(key2 in data) {
-      if (key1 === key2) {
-        return data[key2].name;
-      }
-    }
-  })
-  return followsArray;
-}
+// const follows = (key, data) => {
+//   let followsArray = [];
+//   let followsKeyArray = data[key].follows;
+//   followsArray = followsKeyArray.map((key1) => {
+//     for(key2 in data) {
+//       if (key1 === key2) {
+//         return data[key2].name;
+//       }
+//     }
+//   })
+//   return followsArray;
+// }
 
-const followers = (key, data) => {
-  let followersArray = [];
+// const followers = (key, data) => {
+//   let followersArray = [];
+//   for(person in data) {
+//     if (data[person].follows.includes(key)) {
+//       followersArray.push(data[person].name);
+//     }
+//   }
+//   return followersArray;
+// }
+
+const followsMost = (data) => {
+  let followingArray = [];
   for(person in data) {
-    if (data[person].follows.includes(key)) {
-      followersArray.push(data[person].name);
+    followingArray.push(data[person].follows.length);
+  };
+
+  let maxFollowing = 0;
+  maxFollowing = followingArray.reduce(function(a, b) {
+    return Math.max(a, b);
+  })
+
+  for(person in data) {
+    if (data[person].follows.length === maxFollowing) {
+      return [data[person].name, maxFollowing];
     }
-  }
-  return followersArray;
+  };
 }
 
 
+// console.log(followFollowers(data));
 
-console.log(followFollowers(data));
+console.log('The person who follows the most: ', followsMost(data));
