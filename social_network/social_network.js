@@ -101,9 +101,47 @@ const mostFollowers = (data) => {
     }
   }
   return mostFollowersList;
+}
+
+const mostFollowerOver30 = (data) => {
+
+  let followFollowersList = followFollowers(data);
+  let followersOver30 = {};
+
+  for (person1 in followFollowersList) {
+    followersOver30[person1] = {};
+    followersOver30[person1].nr = 0;
+    for (person2 in data) {
+      if (followFollowersList[person1].followers.includes(data[person2].name) && data[person2].age > 30) {
+        followersOver30[person1].nr++;
+      }
+    }
+  }
+
+  console.log('Followers over 30: ', followersOver30);
+
+  let maxFollOver30 = 0;
+  for (person in followersOver30) {
+    maxFollOver30 = maxFollOver30 < followersOver30[person].nr ? followersOver30[person].nr : maxFollOver30;
+  }
+
+
+  let maxFollOver30List = [];
+  for (person in followersOver30) {
+    if (followersOver30[person].nr === maxFollOver30 ) {
+      maxFollOver30List.push(person);
+    }
+  }
+
+  return maxFollOver30List;
+
+  console.log('followersOver30: ', followersOver30);
+
+
 
 }
 
 console.log(followFollowers(data));
 console.log('The person who follows the most: ', followsMost(data));
 console.log('The person(s) with most followers is: ', mostFollowers(data));
+console.log('The person with most followers over 30: ', mostFollowerOver30(data));
