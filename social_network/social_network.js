@@ -165,9 +165,25 @@ const followsMostPeopleOver30 = (data) => {
   return followMostPeopleOver30List;
 }
 
+const notFollowedBack = (data) => {
+
+  let notFollowedBackList = [];
+  for (f in data) {
+    data[f].follows.forEach((p) => {
+      if (!data[p].follows.includes(f)) {
+        if(!notFollowedBackList.includes(data[f].name)) {
+          notFollowedBackList.push(data[f].name);
+        }
+      }
+    })
+  }
+
+  return notFollowedBackList;
+}
 
 console.log(followFollowers(data));
 console.log('The person who follows the most: ', followsMost(data));
 console.log('The person(s) with most followers is: ', mostFollowers(data));
 console.log('The person with most followers over 30: ', mostFollowerOver30(data));
 console.log('People who follow most people over 30: ', followsMostPeopleOver30(data));
+console.log('People who are not followed back: ', notFollowedBack(data));
