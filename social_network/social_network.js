@@ -181,9 +181,44 @@ const notFollowedBack = (data) => {
   return notFollowedBackList;
 }
 
+const keyFollowers = (key, data) => {
+  let followersArray = [];
+  for(person in data) {
+    if (data[person].follows.includes(key)) {
+      followersArray.push(person);
+    }
+  }
+  return followersArray;
+}
+
+const followerReach = (data) => {
+
+  let reach = {};
+  for (p in data) {
+    let person = data[p];
+    reach[person.name] = [];
+    reach[person.name] = keyFollowers(p, data);
+  }
+
+  for (p in reach) {
+    reach[p].forEach((f) => {
+      reach[p] = reach[p].concat(keyFollowers(f, data));
+    });
+    let unique = [...new Set(reach[p])];
+    reach[p] = unique;
+    console.log('reach[p]: ', reach[p]);
+    const reachArray = reach[p].filter(f => data[f].name !== p);
+    console.log(reachArray);
+    reach[p] = [reachArray.length];
+  }
+  return reach;
+}
+
+
 console.log(followFollowers(data));
 console.log('The person who follows the most: ', followsMost(data));
 console.log('The person(s) with most followers is: ', mostFollowers(data));
 console.log('The person with most followers over 30: ', mostFollowerOver30(data));
 console.log('People who follow most people over 30: ', followsMostPeopleOver30(data));
 console.log('People who are not followed back: ', notFollowedBack(data));
+console.log('List of people and their reach (followers and their followers):', followerReach(data));
