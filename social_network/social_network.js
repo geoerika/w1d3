@@ -206,9 +206,7 @@ const followerReach = (data) => {
     });
     let unique = [...new Set(reach[p])];
     reach[p] = unique;
-    console.log('reach[p]: ', reach[p]);
     const reachArray = reach[p].filter(f => data[f].name !== p);
-    console.log(reachArray);
     reach[p] = [reachArray.length];
   }
   return reach;
